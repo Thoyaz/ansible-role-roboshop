@@ -35,3 +35,4 @@
 - name: Install package.
   community.general.npm:
     path: /app
+  when: component in ["catalogue", "user", "cart"]
