@@ -6,6 +6,6 @@
     name: nodejs
     state: present
 
-- name: Install package.
-  community.general.npm:
-    path: /app
+# - name: Install package.
+#   community.general.npm:
+#     path: /app

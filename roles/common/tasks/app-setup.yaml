@@ -1,33 +1,37 @@
-  - name: Add user
-    ansible.builtin.user:
-      name: roboshop
-      system: true
-      shell: /sbin/nologin
-      home: /app
-      comment: "Adding roboshop user as a system user"
+- name: Add user
+  ansible.builtin.user:
+    name: roboshop
+    system: true
+    shell: /sbin/nologin
+    home: /app
+    comment: "Adding roboshop user as a system user"
 
-  - name: Delete app directory
-    ansible.builtin.file:
-      path: /app
-      state: absent
+- name: Delete app directory
+  ansible.builtin.file:
+    path: /app
+    state: absent
 
-  - name: Create project folder
-    ansible.builtin.file:
-      path: /app
-      state: directory
+- name: Create project folder
+  ansible.builtin.file:
+    path: /app
+    state: directory
 
-  - name: Delete Zip file if it alredy exists
-    ansible.builtin.file:
-      path: /tmp/{{ component }}.zip
-      state: absent
+- name: Delete Zip file if it alredy exists
+  ansible.builtin.file:
+    path: /tmp/{{ component }}.zip
+    state: absent
 
-  - name: Download project - {{ component }}
-    ansible.builtin.get_url:
-      url: https://roboshop-artifacts.s3.amazonaws.com/{{ component }}-v3.zip 
-      dest: /tmp/{{ component }}.zip
+- name: Download project - {{ component }}
+  ansible.builtin.get_url:
+    url: https://roboshop-artifacts.s3.amazonaws.com/{{ component }}-v3.zip 
+    dest: /tmp/{{ component }}.zip
 
-  - name: Unzip project folder - {{ component }}
-    ansible.builtin.unarchive:
-      src: /tmp/{{ component }}.zip
-      dest: /app
-      remote_src: yes
+- name: Unzip project folder - {{ component }}
+  ansible.builtin.unarchive:
+    src: /tmp/{{ component }}.zip
+    dest: /app
+    remote_src: yes
+
+- name: Install package.
+  community.general.npm:
+    path: /app
