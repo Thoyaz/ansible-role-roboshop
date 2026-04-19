@@ -16,7 +16,7 @@
   args:
     chdir: /app
 
-- name: install dependencies
+- name: Move jar file from target folder to current folder
   ansible.builtin.command: mv target/shipping-1.0.jar shipping.jar
   args:
     chdir: /app
@@ -25,7 +25,7 @@
   ansible.builtin.systemd_service:
     daemon_reload: true
 
-- name: install dependencie
+- name: install Python dependencie
   ansible.builtin.pip:
     name: "{{ item }}"
     executable: pip3.9
