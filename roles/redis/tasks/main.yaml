@@ -1,0 +1,29 @@
+- name: Remove the Apache package
+  ansible.builtin.dnf:
+    name: redis
+    state: absent
+
+- name: Enable redis version 7
+  ansible.builtin.command: dnf module enable redis:7 -y
+
+- name: Install redis
+  ansible.builtin.dnf:
+    name: redis
+    state: present
+
+- name: Modify redis config
+  ansible.builtin.replace:
+    path: /etc/redis/redis.conf
+    regexp: '127.0.0.1'
+    replace: '0.0.0.0' 
+
+- name: protected set to no
+  ansible.builtin.lineinfile:
+    path: /etc/redis/redis.conf
+    regexp: 'protected-mode'
+    line: 'protected-mode no'
+
+- name: start {{ component }}
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: systemd-restart.yaml

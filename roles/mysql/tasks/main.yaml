@@ -1,0 +1,13 @@
+- name: Install MySql
+  ansible.builtin.dnf:
+    name: mysql-server
+    state: present
+
+- name: start MySql
+  ansible.builtin.service:
+    state: restarted
+    name: mysqld
+    enabled: yes
+
+- name: Set Password
+  ansible.builtin.command: mysql_secure_installation --set-root-pass {{ MYSQL_PASSWD }}

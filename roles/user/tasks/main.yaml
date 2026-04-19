@@ -1,0 +1,23 @@
+- name: app setup
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: nodejs-setup.yaml
+
+- name: nodejs setup
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: app-setup.yaml
+
+- name: Copy user.service file
+  ansible.builtin.template:
+    src: user.service.j2
+    dest: /etc/systemd/system/user.service
+
+- name: Deamon Reload
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+
+- name: start {{ component }}
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: systemd-restart.yaml
