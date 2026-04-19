@@ -3,11 +3,12 @@
     src: "{{ component }}.service.j2"
     dest: /etc/systemd/system/{{ component }}.service
     remote_src: true
+  #when: component in ["catalogue", "user", "cart", "shipping", "payment"]
   when:
-  - component == "catalogue"
-  - component == "user"
-  - component == "cart"
-  - component == "shipping"
+  - component == "catalogue" or
+  - component == "user" or
+  - component == "cart" or
+  - component == "shipping" or
   - component == "payment"
 
 - name: start {{ component }}
