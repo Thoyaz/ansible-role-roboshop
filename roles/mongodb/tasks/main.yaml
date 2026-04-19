@@ -14,7 +14,8 @@
     regexp: '127.0.0.1'
     replace: '0.0.0.0'
 
-- name: start {{ component }}
-  ansible.builtin.import_role:
-    name: common
-    tasks_from: systemd-restart.yaml
+- name: start mongod
+  ansible.builtin.service:
+    state: restarted
+    name: mongod
+    enabled: yes
